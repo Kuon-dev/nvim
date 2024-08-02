@@ -1,6 +1,9 @@
 vim.g.base46_cache = vim.fn.stdpath "data" .. "/nvchad/base46/"
 vim.g.mapleader = " "
+-- default nu shell
+vim.o.shell = "nu"
 
+local autocmd = vim.api.nvim_create_autocmd
 -- bootstrap lazy and all plugins
 local lazypath = vim.fn.stdpath "data" .. "/lazy/lazy.nvim"
 
@@ -32,8 +35,19 @@ require("lazy").setup({
 dofile(vim.g.base46_cache .. "defaults")
 dofile(vim.g.base46_cache .. "statusline")
 
+-- cmd("filetype plugin indent on")
+autocmd("InsertLeave", {
+  pattern = "*",
+  command = "set nopaste",
+})
+
+-- vim.keymap.set("i", "<M-BS>", "<Esc>cvb", { noremap = true, silent = true })
+
 require "nvchad.autocmds"
 
 vim.schedule(function()
   require "mappings"
+  require "overrides"
+  require "core.autocmd"
 end)
+

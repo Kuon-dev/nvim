@@ -180,17 +180,13 @@ return {
         "css",
         "tsx",
       },
-      -- autotag = {
-      --   enable = true,
-      --   filetypes = {
-      --     "html",
-      --     "javascript",
-      --     "typescript",
-      --     "svelte",
-      --     "typescriptreact",
-      --   },
-      -- }
   	},
+    config = function(_, opts)
+      dofile(vim.g.base46_cache .. "syntax")
+      require("nvim-treesitter.configs").setup(opts)
+      -- tell treesitter to use the markdown parser for mdx files
+      vim.treesitter.language.register('markdown', 'mdx')
+    end,
     dependencies = {
       {
         "nushell/tree-sitter-nu",

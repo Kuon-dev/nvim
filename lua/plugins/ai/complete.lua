@@ -71,6 +71,7 @@ return {
     },
     config = function ()
       require("codeium").setup({
+        enableInComments = false,
       })
     end
   },

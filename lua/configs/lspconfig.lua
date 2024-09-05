@@ -25,6 +25,7 @@ local servers = {
   -- "r_language_server",
   "intelephense",
   "prismals",
+  -- "mdx_analyzer",
   -- "tsserver"
   -- "graphql",
 }
@@ -37,6 +38,13 @@ for _, lsp in ipairs(servers) do
     capabilities = capabilities,
   }
 end
+
+lspconfig.mdx_analyzer.setup({
+  on_attach = on_attach,
+  on_init = on_init,
+  capabilities = capabilities,
+  filetypes = { "mdx" },
+})
 
 -- typescript
 -- lspconfig.tsserver.setup {

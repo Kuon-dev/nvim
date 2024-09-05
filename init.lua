@@ -7,6 +7,12 @@ local autocmd = vim.api.nvim_create_autocmd
 -- bootstrap lazy and all plugins
 local lazypath = vim.fn.stdpath "data" .. "/lazy/lazy.nvim"
 
+vim.filetype.add({
+  extension = {
+    mdx = 'mdx'
+  }
+})
+
 if not vim.loop.fs_stat(lazypath) then
   local repo = "https://github.com/folke/lazy.nvim.git"
   vim.fn.system { "git", "clone", "--filter=blob:none", repo, "--branch=stable", lazypath }
@@ -50,4 +56,5 @@ vim.schedule(function()
   require "overrides"
   require "core.autocmd"
 end)
+
 

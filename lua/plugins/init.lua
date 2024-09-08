@@ -123,21 +123,15 @@ local dev = {
   },
   {
     "luckasRanarison/tailwind-tools.nvim",
+    name = "tailwind-tools",
+    build = ":UpdateRemotePlugins",
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter",
+      "nvim-telescope/telescope.nvim", -- optional
+      "neovim/nvim-lspconfig", -- optional
+    },
     opts = {} -- your configuration
   },
-  -- {
-  --   "windwp/nvim-ts-autotag",
-  --   -- event = "VeryLazy",
-  --   config = function()
-  --     require("nvim-ts-autotag").setup({
-  --       opts = {
-  --         enable_close = true, -- Auto close tags
-  --         enable_rename = true, -- Auto rename pairs of tags
-  --         enable_close_on_slash = false, -- Auto close on trailing </
-  --       }
-  --     })
-  --   end
-  -- },
 }
 
 return {

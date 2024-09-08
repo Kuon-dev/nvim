@@ -1,7 +1,6 @@
 local copilot_status_ok, copilot_cmp_comparators = pcall(require, "copilot_cmp.comparators")
 local defaults = require("nvchad.configs.cmp")
 local luasnip = require("luasnip")
--- local lspkind = require('lspkind')
 -- local codeium = require "codeium"
 local M = {}
 
@@ -31,6 +30,8 @@ local cmp = require "cmp"
 
 M.cmp = function()
   local options = {
+  formatting = {
+  },
   completion = {
     completeopt = "menu,menuone,noinsert,noselect",
     autocomplete = { require("cmp.types").cmp.TriggerEvent.TextChanged },
@@ -127,11 +128,6 @@ M.cmp = function()
     },
   }
   cmp.setup( vim.tbl_deep_extend("force", defaults, options))
-  return {
-      -- formatting = lspkind.cmp_format({
-      --   before = require("tailwind-tools.cmp").lspkind_format
-      -- })
-  }
 end
 
 return M

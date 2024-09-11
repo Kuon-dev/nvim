@@ -8,8 +8,8 @@ local M = {}
 M.ui = {
   transparency = true,
   -- theme = "Tokyonight",
-  theme = "tokyonight",
-  theme_toggle = { "catppuccin", "tokyonight" },
+  theme = "chadracula-evondev",
+  theme_toggle = { "catppuccin", "chadracula-evondev" },
   statusline = {
     separator_style = "arrow",
   },

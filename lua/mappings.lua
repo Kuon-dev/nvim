@@ -23,16 +23,21 @@ map('n', '<Leader>ri', '<cmd>TSToolsAddMissingImports<cr>', { desc = 'Add missin
 map('n', '<Leader>rx', '<cmd>TSToolsRemoveUnused<cr>', { desc = 'Remove unused imports' })
 
 -- Trouble mappings
-map('n', '<Leader>ta', '<cmd>TroubleToggle<cr>', { desc = 'Toggle trouble' })
-map('n', '<Leader>tq', '<cmd>TroubleToggle quickfix<cr>', { desc = 'Toggle trouble quickfix' })
-map('n', '<Leader>tx', '<cmd>TroubleClose<cr>', { desc = 'Close Trouble' })
-map('n', '<Leader>td', '<cmd>TroubleToggle lsp_definitions<cr>', { desc = 'Trouble Definitions' })
-map('n', '<Leader>tr', '<cmd>TroubleToggle lsp_references<cr>', { desc = 'Trouble References' })
+-- Trouble mappings
+map('n', '<Leader>xx', '<cmd>Trouble diagnostics toggle<cr>', { desc = 'Toggle Trouble diagnostics' })
+map('n', '<Leader>xX', '<cmd>Trouble diagnostics toggle filter.buf=0<cr>', { desc = 'Toggle Trouble buffer diagnostics' })
+map('n', '<Leader>cs', '<cmd>Trouble symbols toggle focus=false<cr>', { desc = 'Toggle Trouble symbols' })
+map('n', '<Leader>cl', '<cmd>Trouble lsp toggle focus=false win.position=right<cr>', { desc = 'Toggle Trouble LSP' })
+map('n', '<Leader>xL', '<cmd>Trouble loclist toggle<cr>', { desc = 'Toggle Trouble location list' })
+map('n', '<Leader>xQ', '<cmd>Trouble qflist toggle<cr>', { desc = 'Toggle Trouble quickfix list' })
 
 -- Undo mappings
 map('n', '<C-z>', 'u', { desc = 'Undo' })
 map('i', '<C-z>', 'u', { desc = 'Undo' })
 map('v', '<C-z>', 'u', { desc = 'Undo' })
+
+-- markdown nvim
+map('n', '<leader>tm', '<cmd>RenderMarkdown toggle<CR>', { desc = 'Markdown Preview' })
 
 -- NvimTree and additional LSP mappings
 -- map({ "n", "i", "v" }, "<C-s>", "<cmd> w <cr>")

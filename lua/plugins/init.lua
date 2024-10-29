@@ -17,11 +17,35 @@ local ui = {
       vim.o.foldlevel = 99
     end
   },
+  {
+    "nvchad/showkeys",
+    cmd = "ShowkeysToggle",
+    opts = {
+      timeout = 5,
+      maxkeys = 5,
+      show_count = true,
+      keyformat = {
+        ["<BS>"] = "󰁮 ",
+        ["<CR>"] = "󰘌",
+        ["<Space>"] = "󱁐",
+        ["<Up>"] = "󰁝",
+        ["<Down>"] = "󰁅",
+        ["<Left>"] = "󰁍",
+        ["<Right>"] = "󰁔",
+        ["<PageUp>"] = "Page 󰁝",
+        ["<PageDown>"] = "Page 󰁅",
+        ["<M>"] = "Opt",
+        ["<C>"] = "Ctrl",
+      },
+      -- more opts
+    }
+  },
   nui,
   noice,
   {
     "folke/trouble.nvim",
     requires = "nvim-tree/nvim-web-devicons",
+    event = "LspAttach",
     config = function()
       require("trouble").setup {
       -- your configuration comes here
@@ -122,6 +146,12 @@ local dev = {
     event = "LspAttach",
   },
   {
+    "folke/ts-comments.nvim",
+    opts = {},
+    event = "VeryLazy",
+    enabled = vim.fn.has("nvim-0.10.0") == 1,
+  },
+  {
     'MeanderingProgrammer/render-markdown.nvim',
     opts = {},
     event = "BufRead",
@@ -180,7 +210,9 @@ return {
         "vimdoc",
         "html",
         "css",
-        "tsx",
+        "javascript",
+        "typescript",
+        "tsx"
       },
   	},
     config = function(_, opts)

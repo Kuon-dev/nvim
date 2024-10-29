@@ -14,6 +14,8 @@ local servers = {
   "eslint",
   "cssls",
   "csharp_ls",
+  "vuels",
+  "gopls",
   -- "tailwindcss",
   "pyright",
   "jdtls",
@@ -25,6 +27,7 @@ local servers = {
   -- "r_language_server",
   "intelephense",
   "prismals",
+  "biome",
   -- "mdx_analyzer",
   -- "tsserver"
   -- "graphql",

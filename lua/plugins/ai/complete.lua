@@ -6,7 +6,6 @@ return {
       require "plugins.ai.cmp".cmp()
     end,
     dependencies = {
-      "supermaven-nvim",
       "delphinus/cmp-ctags",
       "hrsh7th/cmp-nvim-lsp-document-symbol",
       "roobert/tailwindcss-colorizer-cmp.nvim",
@@ -22,8 +21,12 @@ return {
   },
   {
     "supermaven-inc/supermaven-nvim",
+    event = { "InsertEnter", "LspAttach" },
     config = function()
-      require("supermaven-nvim").setup({})
+      require("supermaven-nvim").setup({
+        disable_inline_completion = true, -- Disable inline completion for use with cmp
+        disable_keymaps = true
+      })
     end,
   },
   {

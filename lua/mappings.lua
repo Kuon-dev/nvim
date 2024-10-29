@@ -38,6 +38,9 @@ map('v', '<C-z>', 'u', { desc = 'Undo' })
 
 -- markdown nvim
 map('n', '<leader>tm', '<cmd>RenderMarkdown toggle<CR>', { desc = 'Markdown Preview' })
+map('n', '<leader>tp', '<cmd>ShowkeysToggle<CR>', { desc = 'Markdown Preview' })
+map('n', '<leader>tt', function() require("menu").open("default") end, { desc = "Open Menu" })
+map('n', '<leader>tx', function() require("menu").close() end, { desc = "Close Menu" })
 
 -- NvimTree and additional LSP mappings
 -- map({ "n", "i", "v" }, "<C-s>", "<cmd> w <cr>")

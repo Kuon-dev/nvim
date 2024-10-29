@@ -1,3 +1,4 @@
+local cmp = require "cmp"
 local defaults = require("nvchad.configs.cmp")
 local luasnip = require("luasnip")
 local M = {}
@@ -9,9 +10,6 @@ local has_words_before = function()
   return col ~= 0 and vim.api.nvim_buf_get_text(0, line-1, 0, line-1, col, {})[1]:match("^%s*$") == nil
 end
 
-local cmp = require "cmp"
--- local supermaven = require("supermaven-nvim.completion_preview")
-
 M.cmp = function()
   local options = {
     formatting = {
@@ -19,50 +17,45 @@ M.cmp = function()
     },
     completion = {
       completeopt = "menu,menuone,noinsert,noselect",
-      autocomplete = false, -- Disable automatic completion
+      autocomplete = { require("cmp.types").cmp.TriggerEvent.TextChanged },
       keyword_length = 2,
     },
     experimental = {
-      ghost_text = false -- Disable ghost text as Supermaven will handle this
+      ghost_text = true
     },
     mapping = {
       ["<Up>"] = cmp.mapping.select_prev_item(),
       ["<Down>"] = cmp.mapping.select_next_item(),
-      -- ["<Tab>"] = cmp.mapping(function(fallback)
-      --   if supermaven.has_suggestion() then
-      --     supermaven.on_accept_suggestion()
-      --   elseif cmp.visible() then
-      --     cmp.select_next_item()
-      --   elseif luasnip.expand_or_locally_jumpable() then
-      --     luasnip.expand_or_jump()
-      --   elseif has_words_before() then
-      --     cmp.complete()
-      --   else
-      --     fallback()
-      --   end
-      -- end, { "i", "s" }),
+      ["<Tab>"] = cmp.mapping(function(fallback)
+        if cmp.visible() then
+          cmp.select_next_item()
+        elseif luasnip.expand_or_locally_jumpable() then
+          luasnip.expand_or_jump()
+        elseif has_words_before() then
+          cmp.complete()
+        else
+          fallback()
+        end
+      end, { "i", "s" }),
       ['<CR>'] = cmp.mapping.confirm({
         behavior = cmp.ConfirmBehavior.Replace,
         select = false,
       }),
-      -- ["<ESC>"] = cmp.mapping(function(fallback)
-      --   if supermaven.has_suggestion() then
-      --     supermaven.on_clear_suggestion()
-      --     cmp.complete() -- Trigger cmp after clearing Supermaven suggestion
-      --   elseif cmp.visible() then
-      --     cmp.abort()
-      --   else
-      --     fallback()
-      --   end
-      -- end, {
-      --   "i",
-      --   "s",
-      -- }),
+      ["<ESC>"] = cmp.mapping(function(fallback)
+        if cmp.visible() then
+          cmp.abort()
+        else
+          fallback()
+        end
+      end, {
+        "i",
+        "s",
+      }),
     },
     performance = {
       debounce = 150,
       throttle = 60,
-      fetching_timeout = 200,
+      fetching_timeout = 500,
     },
     snippet = {
       expand = function(args)
@@ -71,6 +64,7 @@ M.cmp = function()
     },
     sources = {
       { name = "supermaven" },
+      { name = "codeium", max_item_count = 2 },
       { name = "luasnip" },
       { name = "nvim_lsp",
         max_item_count = 30,
@@ -79,7 +73,7 @@ M.cmp = function()
         end,
       },
       { name = "nvim_lua" },
-      { name = "tailwind" },
+      -- { name = "tailwind" },
       { name = "path" },
     },
     matching = {
@@ -106,23 +100,5 @@ M.cmp = function()
   }
   cmp.setup(vim.tbl_deep_extend("force", defaults, options))
 end
-
--- Set up Supermaven
--- require("supermaven-nvim").setup({
---   disable_inline_completion = true, -- Disable inline completion for use with cmp
---   condition = function()
---     -- Only run Supermaven when entering insert mode from normal mode
---     return vim.api.nvim_get_mode().mode ~= "n"
---   end
--- })
-
--- Set up an autocommand to restart Supermaven when entering insert mode
-vim.api.nvim_create_autocmd("InsertEnter", {
-  callback = function()
-    if vim.api.nvim_get_mode().mode == "i" then
-      require("supermaven-nvim.api").restart()
-    end
-  end,
-})
 
 return M

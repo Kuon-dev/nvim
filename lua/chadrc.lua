@@ -6,19 +6,18 @@
 local M = {}
 
 M.ui = {
-  transparency = true,
-  -- theme = "Tokyonight",
-  theme = "chadracula-evondev",
-  theme_toggle = { "catppuccin", "chadracula-evondev" },
-  statusline = {
-    separator_style = "arrow",
-  },
-  -- hl_add = require("custom.highlights").new_hlgroups,
-  -- hl_override = require("custom.highlights").overriden_hlgroups,
-  tabufline = {
-    lazyload = true,
-  },
+  cmp = {
+    lspkind_text = true,
+    format_colors = {
+      tailwind = true
+    },
+    style = "default", -- default/flat_light/flat_dark/atom/atom_colored
+  }
 }
 
--- M.plugins = "custom.plugins"
+M.base46 = {
+  theme = "chadracula-evondev",
+  transparency = true,
+}
+
 return M

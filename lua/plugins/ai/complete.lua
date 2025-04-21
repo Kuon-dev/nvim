@@ -30,16 +30,22 @@ return {
     end,
   },
   {
-    'Exafunction/codeium.nvim',
-    event = { "InsertEnter", "LspAttach" },
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      "hrsh7th/nvim-cmp",
-    },
-    config = function ()
-      require("codeium").setup({
-        enableInComments = false,
-      })
-    end
+      'milanglacier/minuet-ai.nvim',
+      config = function ()
+        require "plugins.ai.minuet".minuet()
+      end,
   },
+  -- {
+  --   'Exafunction/codeium.nvim',
+  --   event = { "InsertEnter", "LspAttach" },
+  --   dependencies = {
+  --     "nvim-lua/plenary.nvim",
+  --     "hrsh7th/nvim-cmp",
+  --   },
+  --   config = function ()
+  --     require("codeium").setup({
+  --       enableInComments = false,
+  --     })
+  --   end
+  -- },
 }

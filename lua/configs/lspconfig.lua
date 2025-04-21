@@ -16,6 +16,7 @@ local servers = {
   "csharp_ls",
   "vuels",
   "gopls",
+  "astro",
   -- "tailwindcss",
   "pyright",
   "jdtls",
@@ -28,6 +29,7 @@ local servers = {
   "intelephense",
   "prismals",
   "biome",
+  "rust_analyzer",
   -- "mdx_analyzer",
   -- "tsserver"
   -- "graphql",
@@ -138,6 +140,30 @@ require("typescript-tools").setup {
     }
   }
 };
+
+local eslint = require('lspconfig').eslint
+
+-- Create a custom diagnostic handler
+local custom_diagnostic_handler = function(err, result, ctx, config)
+  if result then
+    -- Filter out prettier/prettier diagnostics
+    result = vim.tbl_filter(function(diagnostic)
+      return diagnostic.code ~= 'prettier/prettier'
+    end, result)
+  end
+  
+  -- Call the default diagnostic handler with filtered results
+  vim.lsp.diagnostic.on_publish_diagnostics(err, result, ctx, config)
+end
+
+eslint.setup({
+  handlers = {
+    ['textDocument/publishDiagnostics'] = vim.lsp.with(
+      custom_diagnostic_handler,
+      {}
+    )
+  }
+})
 
 -- vim.notify = require("noice").notify
 -- vim.lsp.handlers["textDocument/hover"] = require("noice").hover

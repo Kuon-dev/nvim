@@ -38,9 +38,17 @@ vim.o.foldenable = true
 set.clipboard:prepend { 'unnamed', 'unnamedplus' }
 
 for i = 1, 9, 1 do
+  -- Original Alt+number binding
   vim.keymap.set("n", string.format("<A-%s>", i), function()
     vim.api.nvim_set_current_buf(vim.t.bufs[i])
   end)
+  
+  -- Added Right-Shift+number binding using special key code
+  vim.keymap.set("n", string.format("<Leader>%s", i), function()
+    vim.api.nvim_set_current_buf(vim.t.bufs[i])
+  end)
+
+  vim.keymap.set("n", string.format("<M-Right-%s>", i), function()
+    vim.api.nvim_set_current_buf(vim.t.bufs[i])
+  end)
 end
-
-

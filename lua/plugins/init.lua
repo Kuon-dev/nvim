@@ -1,6 +1,9 @@
+-- nvim/lua/plugins/init.lua
 local nui = require("plugins.ui.nui")
 local noice = require("plugins.ui.noice")
 local ai = require("plugins.ai.complete")
+local agent = require("plugins.ai.goose")
+-- local mcp = require("plugins.ai.cmp")
 local telescope = require("plugins.ui.telescope")
 
 local ui = {
@@ -43,18 +46,6 @@ local ui = {
   nui,
   noice,
   {
-    "folke/trouble.nvim",
-    requires = "nvim-tree/nvim-web-devicons",
-    event = "LspAttach",
-    config = function()
-      require("trouble").setup {
-      -- your configuration comes here
-      -- or leave it empty to use the default settings
-      -- refer to the configuration section below
-      }
-    end
-  },
-  {
     "tris203/precognition.nvim",
     -- event = "VeryLazy",
     opts = {
@@ -95,7 +86,7 @@ local ui = {
 local lsp = {
   {
     "nvimdev/lspsaga.nvim",
-    event = "LspAttach",
+    lazy = false,
     config = function()
         require "configs.lspsaga"
     end,
@@ -113,6 +104,59 @@ local lsp = {
 }
 
 local qol = {
+  {
+    "folke/snacks.nvim",
+    priority = 1000,
+    lazy = false,
+    ---@type snacks.Config
+    opts = {
+      -- your configuration comes here
+      -- or leave it empty to use the default settings
+      -- refer to the configuration section below
+      bigfile = { enabled = true },
+      -- dashboard = { enabled = false },
+      -- explorer = { enabled = true },
+      indent = { enabled = true },
+      -- input = { enabled = true },
+      picker = { enabled = true },
+      -- notifier = { enabled = true },
+      -- quickfile = { enabled = true },
+      -- scope = { enabled = true },
+      lazygit = { enabled = true },
+      -- scroll = { enabled = true },
+      -- statuscolumn = { enabled = true },
+      -- words = { enabled = true },
+    },
+    keys = {
+      { "<M-g>", function() Snacks.lazygit() end, desc = "Lazygit" },
+      { "<M-/>", function() Snacks.picker.smart() end, desc = "Smart Find Files"  },
+      { "<M-p>", function() Snacks.explorer() end, desc = "File Explorer" },
+    }
+  },
+  {
+    "folke/trouble.nvim",
+    optional = true,
+    specs = {
+      "folke/snacks.nvim",
+      opts = function(_, opts)
+        return vim.tbl_deep_extend("force", opts or {}, {
+          picker = {
+            actions = require("trouble.sources.snacks").actions,
+            win = {
+              input = {
+                keys = {
+                  ["<M-t>"] = {
+                    "trouble_open",
+                    mode = { "n", "i" },
+                  },
+                },
+              },
+            },
+          },
+        })
+      end,
+    },
+  },
   {
   'Wansmer/treesj',
     keys = { '<space>m', '<space>j', '<space>s' },
@@ -142,6 +186,10 @@ local qol = {
 
 local dev = {
   {
+    "sindrets/diffview.nvim",
+    event = "LspAttach",
+  },
+  {
     "editorconfig/editorconfig-vim",
     event = "LspAttach",
   },
@@ -160,16 +208,40 @@ local dev = {
     dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' }, -- if you prefer nvim-web-devicons
   },
   {
-    "luckasRanarison/tailwind-tools.nvim",
-    name = "tailwind-tools",
-    build = ":UpdateRemotePlugins",
-    dependencies = {
-      "nvim-treesitter/nvim-treesitter",
-      "nvim-telescope/telescope.nvim", -- optional
-      "neovim/nvim-lspconfig", -- optional
-    },
-    opts = {} -- your configuration
+      "nvzone/typr",
+      dependencies = "nvzone/volt",
+      opts = {},
+      cmd = { "Typr", "TyprStats" },
   },
+  {
+      "ravitemer/mcphub.nvim",
+      dependencies = {
+          "nvim-lua/plenary.nvim",  -- Required for Job and HTTP requests
+      },
+      build = "npm install -g mcp-hub@latest", -- Installs required mcp-hub npm module
+      config = function()
+          require("mcphub").setup({
+              -- Required options
+              port = 3000,  -- Port for MCP Hub server
+              config = vim.fn.expand("~/mcpservers.json"),  -- Absolute path to config file
+
+              -- Optional options
+              on_ready = function(hub)
+                  -- Called when hub is ready
+              end,
+              on_error = function(err)
+                  -- Called on errors
+              end,
+              shutdown_delay = 0, -- Wait 0ms before shutting down server after last client exits
+              log = {
+                  level = vim.log.levels.WARN,
+                  to_file = false,
+                  file_path = nil,
+                  prefix = "MCPHub"
+              },
+          })
+      end
+  }
 }
 
 return {
@@ -240,4 +312,5 @@ return {
   qol,
   lsp,
   dev,
+  agent,
 }

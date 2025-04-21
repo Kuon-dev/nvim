@@ -53,9 +53,9 @@ M.cmp = function()
       }),
     },
     performance = {
-      debounce = 150,
+      debounce = 350,
       throttle = 60,
-      fetching_timeout = 500,
+      fetching_timeout = 2000,
     },
     snippet = {
       expand = function(args)
@@ -64,8 +64,9 @@ M.cmp = function()
     },
     sources = {
       { name = "supermaven" },
-      { name = "codeium", max_item_count = 2 },
+      -- { name = "codeium", max_item_count = 2 },
       { name = "luasnip" },
+      { name = "minuet" },
       { name = "nvim_lsp",
         max_item_count = 30,
         entry_filter = function(entry, ctx)

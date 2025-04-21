@@ -17,6 +17,7 @@ local noice_setup = {
       help = { pattern = "^:%s*he?l?p?%s+", icon = "󰞋 " },
     },
   },
+
   popupmenu = {
     enabled = true, -- enables the Noice popupmenu UI
     backend = "nui", -- backend to use to show regular cmdline completions
@@ -43,7 +44,7 @@ local noice_setup = {
         col = "50%",
       },
       size = {
-        width = 60,
+        width = 80,
         height = "auto",
       },
     },

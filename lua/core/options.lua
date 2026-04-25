@@ -2,6 +2,9 @@ require "nvchad.options"
 
 -- add yours here!
 
+-- Ensure cargo bin is in PATH for tree-sitter CLI etc.
+vim.env.PATH = vim.env.HOME .. "/.cargo/bin:" .. vim.env.PATH
+
 local o = vim.o
 local set = vim.opt
 

@@ -7,14 +7,13 @@ local map = vim.keymap.set
 map("n", ";", ":", { desc = "CMD enter command mode" })
 map("i", "jk", "<ESC>")
 
--- map("n" , ";f", "<cmd> Telescope find_files <CR>", { desc = "Find Files"})
-map("n", ";f", "<cmd>Telescope find_files<CR>", { desc = "Find Files" })
-map("n", ";a", "<cmd>Telescope find_files follow=true no_ignore=true hidden=true<CR>", { desc = "Find All Files" })
-map("n", ";r", "<cmd>Telescope live_grep<CR>", { desc = "Live Grep" })
-map("n", ";b", "<cmd>Telescope buffers<CR>", { desc = "Find Buffers" })
-map("n", ";h", "<cmd>Telescope help_tags<CR>", { desc = "Help Page" })
-map("n", ";o", "<cmd>Telescope oldfiles<CR>", { desc = "Find Old Files" })
-map("n", ";k", "<cmd>Telescope keymaps<CR>", { desc = "Show Keys" })
+map("n", ";f", function() Snacks.picker.files() end, { desc = "Find Files" })
+map("n", ";a", function() Snacks.picker.files({ hidden = true, ignored = true, follow = true }) end, { desc = "Find All Files" })
+map("n", ";r", function() Snacks.picker.grep() end, { desc = "Live Grep" })
+map("n", ";b", function() Snacks.picker.buffers() end, { desc = "Find Buffers" })
+map("n", ";h", function() Snacks.picker.help() end, { desc = "Help Page" })
+map("n", ";o", function() Snacks.picker.recent() end, { desc = "Find Old Files" })
+map("n", ";k", function() Snacks.picker.keymaps() end, { desc = "Show Keys" })
 
 map('n', '<C-m>', '<cmd>:%s/\r//g<CR>', { desc = 'Set file endings to unix (LF)' })
 map('n', 'x', '"_x', { desc = 'Delete without yank'})
@@ -42,10 +41,8 @@ map('n', '<leader>tp', '<cmd>ShowkeysToggle<CR>', { desc = 'Markdown Preview' })
 map('n', '<leader>tt', function() require("menu").open("default") end, { desc = "Open Menu" })
 map('n', '<leader>tx', function() require("menu").close() end, { desc = "Close Menu" })
 
--- NvimTree and additional LSP mappings
--- map({ "n", "i", "v" }, "<C-s>", "<cmd> w <cr>")
---
-map('n', '<C-p>', '<cmd>NvimTreeToggle<CR>', { desc = 'Open Oil Tree' })
+-- Explorer and LSP mappings
+map('n', '<C-p>', function() Snacks.explorer() end, { desc = 'File Explorer' })
 map('n', 'gh', '<cmd>Lspsaga lsp_finder<CR>', { desc = "LSP Saga Finder" })
 map('n', '<Leader>ca', '<cmd>Lspsaga code_action<CR>', { desc = "Code Action" })
 map('n', 'gr', '<cmd>Lspsaga rename<CR>', { desc = "Rename All Occurrences" })
@@ -65,3 +62,40 @@ map('n', '<leader>S', '<cmd>require("flash").treesitter()<CR>', { desc = "Flash 
 map('n', '<leader>r', '<cmd>require("flash").remote()<CR>', { desc = "Remote Flash" })
 map('n', '<leader>R', '<cmd>require("flash").treesitter_search()<CR>', { desc = "Treesitter Search" })
 map('n', '<leader>s', '<cmd>require("flash").toggle()<CR>', { desc = "Toggle Flash Search" })
+
+map({ "n", "t" }, "<M-l>", function()
+  require("nvchad.term").toggle {
+    pos = "float",
+    id = "nuterm",
+    cmd = 'nu',
+    float_opts = {
+      -- height = 0.4,
+      relative = "editor",
+      row = 0.05,
+      -- col = 0.05,
+      -- col = ,
+      -- width = 0.9,
+      height = 0.8,
+      border = "single",
+    },
+  }
+end, { desc = "Terminal Toggle Floating term" })
+
+
+-- map({ "n", "t" }, "<M-p>", function()
+--   require("nvchad.term").toggle {
+--     pos = "float",
+--     id = "serpl",
+--     cmd = "serpl",
+--     float_opts = {
+--       -- height = 0.4,
+--       relative = "editor",
+--       row = 0.02,
+--       -- col = 0.1,
+--       col = 0.1,
+--       width = 1,
+--       height = 0.9,
+--       border = "single",
+--     },
+--   }
+-- end, { desc = "Terminal Toggle Floating term" })

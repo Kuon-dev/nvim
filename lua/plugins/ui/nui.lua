@@ -1,17 +1,7 @@
-local telescope = require("plugins.ui.telescope")
-
 return {
   {
     "MunifTanjim/nui.nvim",
     lazy = false,
-  },
-  {
-    "nvim-telescope/telescope.nvim",
-    dependencies = { "nvim-treesitter/nvim-treesitter", "MunifTanjim/nui.nvim" },
-    cmd = "Telescope",
-    opts = function()
-     telescope()
-    end,
   },
   {
     "SmiteshP/nvim-navic"
@@ -26,7 +16,7 @@ return {
         "nvim-telescope/telescope.nvim" -- Optional
     },
     config = function()
-      require "plugins.ui.navbuddy"
+      require "config.ui.navbuddy"
     end
   },
   {

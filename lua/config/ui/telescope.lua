@@ -3,15 +3,12 @@ local telescope = require("telescope")
 
 local status, module = pcall(require, "nui.layout")
 if not status then
-  return function ()
-    -- print("Nui is not loaded")
-    telescope.setup(defaults)
-  end
+  telescope.setup(defaults)
+  return
 end
 
 local Layout = require("nui.layout")
 local Popup = require("nui.popup")
-
 local TSLayout = require("telescope.pickers.layout")
 
 local function make_popup(options)
@@ -22,7 +19,7 @@ local function make_popup(options)
   return TSLayout.Window(popup)
 end
 
-local options = ({
+local options = {
   defaults = {
     vimgrep_arguments = {
       "rg",
@@ -34,7 +31,7 @@ local options = ({
       "--column",
       "--smart-case",
     },
-    prompt_prefix = "   ASDASD",
+    prompt_prefix = "   ",
     layout_strategy = "flex",
     layout_config = {
       horizontal = {
@@ -240,8 +237,6 @@ local options = ({
       return TSLayout(layout)
     end,
   },
-})
+}
 
-return function()
-  telescope.setup( vim.tbl_deep_extend("force", defaults, options))
-end
+telescope.setup(vim.tbl_deep_extend("force", defaults, options))

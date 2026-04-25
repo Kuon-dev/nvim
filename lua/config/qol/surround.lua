@@ -1,0 +1,2 @@
+-- nvim-surround configuration
+return {}

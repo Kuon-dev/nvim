@@ -22,7 +22,7 @@ end
 
 vim.opt.rtp:prepend(lazypath)
 
-local lazy_config = require "configs.lazy"
+local lazy_config = require "config.lazy"
 
 -- load plugins
 require("lazy").setup({
@@ -40,33 +40,29 @@ require("lazy").setup({
 dofile(vim.g.base46_cache .. "defaults")
 dofile(vim.g.base46_cache .. "statusline")
 
-require "options"
 require "nvchad.autocmds"
 
--- vim.schedule(function()
---   require "mappings"
--- end)
+-- Load options immediately to prevent untitled buffer
+require "core.options"
 
--- cmd("filetype plugin indent on")
+-- InsertLeave autocmd from original config
 autocmd("InsertLeave", {
   pattern = "*",
   command = "set nopaste",
 })
 
--- vim.keymap.set("i", "<M-BS>", "<Esc>cvb", { noremap = true, silent = true })
-require "nvchad.autocmds"
+-- Load other core modules
+vim.schedule(function()
+  require "core.keymaps"
+  require "core.autocmds"
+end)
 
+-- Right-click menu handler
 vim.keymap.set("n", "<RightMouse>", function()
   vim.cmd.exec '"normal! \\<RightMouse>"'
 
   local options = vim.bo.ft == "NvimTree" and "nvimtree" or "default"
   require("menu").open(options, { mouse = true })
 end, {})
-
-vim.schedule(function()
-  require "mappings"
-  require "overrides"
-  require "core.autocmd"
-end)
 
 -- vim.opt.relativenumber = true
